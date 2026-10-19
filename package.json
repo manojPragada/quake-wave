@@ -8,3 +8,4 @@
     "check": "node --check src/app.js && node --check src/model.js"
   }
 }
+

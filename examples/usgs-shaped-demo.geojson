@@ -1,0 +1,26 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "title": "Synthetic import test, not an actual earthquake",
+    "generated": 1000
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "synthetic-1",
+      "properties": {
+        "mag": 4.5,
+        "place": "Synthetic test location",
+        "time": 1000
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10,
+          20,
+          30
+        ]
+      }
+    }
+  ]
+}

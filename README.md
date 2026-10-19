@@ -20,6 +20,12 @@ Open http://127.0.0.1:8000. Keep the terminal running; Ctrl+C stops it. Serve ov
 
 Adjust minimum magnitude and timeline hour, then select a visible event to inspect its fictional details.
 
+## Saved earthquake-file import
+
+Use **Import saved USGS-format GeoJSON** to load a local FeatureCollection. The [USGS GeoJSON Summary format](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php) defines magnitude, epoch-millisecond event times and Point coordinates `[longitude, latitude, depth]`. This importer accepts that subset; it does not fetch or authenticate the source. A compatible shape does not prove that a file contains real observations.
+
+Files stay in memory and are not uploaded or persisted. Limits: 1 MiB and 5,000 features. Malformed collections or imports without valid records fail without replacing the current dataset; invalid individual records are skipped and counted. Imported labels show UTC event time and optional file-generation time, and never claim a live connection. Restore demo discards the imported dataset. `examples/usgs-shaped-demo.geojson` is explicitly synthetic test data, not an observation feed.
+
 ## Project structure
 
 ```text
@@ -51,7 +57,7 @@ Semantic controls, visible keyboard focus, a skip link, responsive layouts and r
 
 ## Data, assets and limitations
 
-All events are synthetic. The map is schematic. There is no earthquake feed, early-warning capability or safety advice. Never use this demo for emergency decisions.
+Bundled events are synthetic; imported files are user-supplied records whose provenance is not verified. The map is schematic. There is no earthquake feed, early-warning capability or safety advice. Never use this demo for emergency decisions.
 
 All graphics and synthetic fixtures are original code in this repository. No third-party geographic dataset or media assets are bundled. No external API terms are relied upon in this prototype. Provider adapters will be documented and attributed before use.
 
@@ -74,3 +80,4 @@ Use small, reviewable changes with a clear user benefit. Add model tests when be
 ## License
 
 A redistribution license has not yet been selected. Public visibility alone does not grant an open-source license.
+

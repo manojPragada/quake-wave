@@ -44,6 +44,18 @@ Vanilla ES modules keep the initial product runnable without a package install. 
 
 ## Verification
 
+Browser regression checks (development only; Node.js 24 and npm):
+
+```bash
+npm ci --ignore-scripts
+npx playwright install --with-deps chromium
+npm test
+npm run check
+npm run test:browser
+```
+
+The browser runner manages its own loopback server and checks desktop (1440px), mobile (390px), keyboard skip navigation, horizontal overflow, page errors, reduced motion and core interactions. Screenshots go to ignored test-results/. Optional CHROMIUM_EXECUTABLE_PATH selects an existing Chromium; PLAYWRIGHT_MODULE_PATH selects an installed Playwright module. The CI workflow skips private repositories. This is focused regression coverage, not a comprehensive accessibility audit or live-provider verification. The static app still requires no package installation.
+
 ```bash
 npm test
 npm run check
@@ -80,4 +92,5 @@ Use small, reviewable changes with a clear user benefit. Add model tests when be
 ## License
 
 A redistribution license has not yet been selected. Public visibility alone does not grant an open-source license.
+
 

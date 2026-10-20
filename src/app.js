@@ -42,3 +42,4 @@ $('#reset-demo').addEventListener('click',()=>{
   importGeneration++;dataset=events;imported=false;selected='q1';$('#import-file').value='';$('#hour').min=0;$('#hour').max=24;$('#hour').step=1;$('#hour').value=24;
   $('#timeline-label').textContent='Demo timeline';$('#data-mode').textContent='SYNTHETIC EVENTS / NOT AN ALERT SYSTEM';$('.map-note').textContent='FICTIONAL EVENT LOCATIONS / SCHEMATIC GEOGRAPHY';$('footer span').textContent='Synthetic demo · no live data connection';$('#import-status').textContent='Synthetic demo restored. Imported data discarded.';render();
 });render();
+

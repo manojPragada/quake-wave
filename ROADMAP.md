@@ -14,6 +14,8 @@
 
 ## Continuity
 
+2026-10-20: Added repeatable Playwright regression checks and a public-repository-only CI workflow. Desktop, mobile and motion-enabled scenarios passed locally using Chromium 153; model tests and syntax checks passed. Screenshots generated locally for inspection. Earlier browser-unavailable notes below are historical. No deployment or live-provider validation performed. Next: expand browser coverage and review the existing PR before merging.
+
 Initial prototype created 2026-10-17. Re-read repository contents and latest commits before continuing. No hosted deployment. No live data integrations.
 
 ## Verification
@@ -26,3 +28,4 @@ Initial prototype created 2026-10-17. Re-read repository contents and latest com
 
 
 2026-10-18: Added bounded, session-only USGS-shaped GeoJSON import with timestamp filtering, generation metadata, explicit unverified/non-live labels, invalid-record counts and reset-to-demo. Six model tests pass. Browser file-input review remains pending; no live fetch/caching integration is claimed.
+

@@ -21,3 +21,4 @@ export function parseGeoJSON(value) {
 }
 export function project(e){return [(e.lon+180)/360*800,(90-e.lat)/180*400];}
 
+

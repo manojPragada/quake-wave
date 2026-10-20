@@ -44,6 +44,10 @@ Vanilla ES modules keep the initial product runnable without a package install. 
 
 ## Verification
 
+![Actual desktop prototype screenshot captured in Chromium](docs/preview-desktop.jpg)
+
+Preview: local synthetic/offline prototype, captured 2026-10-20; not a live service.
+
 Browser regression checks (development only; Node.js 24 and npm):
 
 ```bash

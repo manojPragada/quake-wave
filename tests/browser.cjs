@@ -46,7 +46,7 @@ async function main(){
         await page.goto(base);await page.waitForFunction(()=>document.querySelector('main')!==null);await page.waitForLoadState('networkidle');
         await page.keyboard.press('Tab');assert.equal(await page.locator('.skip').evaluate(el=>document.activeElement===el),true,'Skip link must be first keyboard target');
         await page.evaluate(()=>document.activeElement.blur());
-        if(profile.name!=='motion')await page.screenshot({path:path.join(root,'test-results',profile.name+'.png'),fullPage:true});
+        if(profile.name!=='motion')await page.screenshot({path:path.join(root,'test-results',profile.name+'.jpg'),type:'jpeg',quality:75,fullPage:true});
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'Horizontal overflow');
         await scenario(page,base,profile.reduced);
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,'Horizontal overflow after interactions');

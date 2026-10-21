@@ -1,8 +1,12 @@
 import { events, visibleEvents, project, parseGeoJSON } from './model.js';
 const $=selector=>document.querySelector(selector);
+const depthLabel=document.createElement('label');depthLabel.textContent='Maximum depth ';
+const depthSelect=document.createElement('select');depthSelect.id='depth';
+for(const [value,label] of [['all','Any depth'],['20','20 km'],['50','50 km']]){const option=document.createElement('option');option.value=value;option.textContent=label;depthSelect.append(option);}
+depthLabel.append(depthSelect);$('#magnitude').closest('label').after(depthLabel);
 let selected='q1',dataset=events,imported=false,importGeneration=0;
 function render() {
-  const cutoff=Number($('#hour').value),items=visibleEvents(Number($('#magnitude').value),cutoff,dataset);
+  const cutoff=Number($('#hour').value),items=visibleEvents(Number($('#magnitude').value),cutoff,dataset,$('#depth').value);
   selected=items.find(event=>event.id===selected)?.id??items[0]?.id??null;
   $('#clock').textContent=imported?new Date(cutoff).toISOString():String(cutoff).padStart(2,'0')+':00';
   $('#count').textContent=items.length+(imported?' imported records visible':' fictional events visible');
@@ -22,7 +26,7 @@ function render() {
   detail.textContent=event?`${event.place} · ${event.depth} km depth · ${imported?new Date(event.time).toISOString():'demo hour '+event.hour+':00'}`:'Try a lower magnitude or later timeline position.';
   $('#detail').replaceChildren(heading,detail);
 }
-$('#magnitude').addEventListener('change',render);$('#hour').addEventListener('input',render);
+$('#magnitude').addEventListener('change',render);$('#depth').addEventListener('change',render);$('#hour').addEventListener('input',render);
 $('#import-file').addEventListener('change',async()=>{
   const file=$('#import-file').files?.[0],generation=++importGeneration;if(!file)return;
   $('#import-status').textContent='Reading local file…';
@@ -42,4 +46,5 @@ $('#reset-demo').addEventListener('click',()=>{
   importGeneration++;dataset=events;imported=false;selected='q1';$('#import-file').value='';$('#hour').min=0;$('#hour').max=24;$('#hour').step=1;$('#hour').value=24;
   $('#timeline-label').textContent='Demo timeline';$('#data-mode').textContent='SYNTHETIC EVENTS / NOT AN ALERT SYSTEM';$('.map-note').textContent='FICTIONAL EVENT LOCATIONS / SCHEMATIC GEOGRAPHY';$('footer span').textContent='Synthetic demo · no live data connection';$('#import-status').textContent='Synthetic demo restored. Imported data discarded.';render();
 });render();
+
 

@@ -1,6 +1,7 @@
 export const events=[{id:'q1',place:'Pacific demo region',lon:145,lat:36,magnitude:6.2,depth:32,hour:3},{id:'q2',place:'Andes demo region',lon:-72,lat:-30,magnitude:5.3,depth:60,hour:9},{id:'q3',place:'Island arc demo region',lon:119,lat:-4,magnitude:4.6,depth:15,hour:14},{id:'q4',place:'Atlantic demo region',lon:-30,lat:10,magnitude:3.8,depth:10,hour:20}];
-export function visibleEvents(magnitude, cutoff, dataset=events) {
-  return dataset.filter(event=>event.magnitude>=magnitude&&(event.time??event.hour)<=cutoff)
+export function visibleEvents(magnitude, cutoff, dataset=events, maxDepth=Infinity) {
+  const depth=Number(maxDepth);const limit=Number.isFinite(depth)?Math.max(0,depth):Infinity;
+  return dataset.filter(event=>event.magnitude>=magnitude&&(event.time??event.hour)<=cutoff&&(Number.isFinite(event.depth)?event.depth:0)<=limit)
     .sort((a,b)=>(b.time??b.hour)-(a.time??a.hour));
 }
 export function parseGeoJSON(value) {
@@ -20,5 +21,6 @@ export function parseGeoJSON(value) {
   return {events:result,skipped,generated:Number.isFinite(value.metadata?.generated)&&Math.abs(value.metadata.generated)<=8.64e15?value.metadata.generated:null};
 }
 export function project(e){return [(e.lon+180)/360*800,(90-e.lat)/180*400];}
+
 
 

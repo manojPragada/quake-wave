@@ -9,6 +9,8 @@ const mime={'.html':'text/html','.css':'text/css','.js':'text/javascript','.geoj
 async function scenario(page,base,reduced){
 
   await page.locator('#magnitude').selectOption('6');assert.equal(await page.locator('#list button').count(),1);
+  await page.locator('#magnitude').selectOption('-10');await page.locator('#depth').selectOption('20');assert.equal(await page.locator('#list button').count(),2);
+  await page.locator('#depth').selectOption('all');
   await page.locator('#magnitude').selectOption('-10');
   await page.locator('#import-file').setInputFiles(path.join(root,'examples/usgs-shaped-demo.geojson'));
   await page.waitForFunction(()=>document.querySelector('#import-status').textContent.startsWith('Loaded 1'));
@@ -59,3 +61,4 @@ async function main(){
   }finally{if(browser)await browser.close();await new Promise(resolve=>server.close(resolve));}
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});
+

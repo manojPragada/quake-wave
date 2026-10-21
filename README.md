@@ -18,6 +18,8 @@ Open http://127.0.0.1:8000. Keep the terminal running; Ctrl+C stops it. Serve ov
 
 ## Controls
 
+Magnitude, timeline and maximum-depth filters compose. Depth values in the bundled demo are fictional; imported values are shown exactly as supplied after numeric validation and are not independently verified.
+
 Adjust minimum magnitude and timeline hour, then select a visible event to inspect its fictional details.
 
 ## Saved earthquake-file import
@@ -96,5 +98,6 @@ Use small, reviewable changes with a clear user benefit. Add model tests when be
 ## License
 
 A redistribution license has not yet been selected. Public visibility alone does not grant an open-source license.
+
 
 

@@ -1,5 +1,6 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';import {visibleEvents,parseGeoJSON} from '../src/model.js';
+import {test} from 'node:test';import assert from 'node:assert/strict';import {events,visibleEvents,parseGeoJSON} from '../src/model.js';
 test('magnitude and time filters intersect',()=>{assert.equal(visibleEvents(5,24).length,2);assert.equal(visibleEvents(5,4).length,1);assert.equal(visibleEvents(0,0).length,0);});
+test('depth filter composes with magnitude and clamps negative input',()=>{assert.deepEqual(visibleEvents(4,24,events,20).map(e=>e.id),['q3']);assert.equal(visibleEvents(-10,24,events,-1).length,0);assert.equal(visibleEvents(-10,24,events,'all').length,events.length);});
 test('thresholds include exact values',()=>assert.equal(visibleEvents(6.2,3)[0].id,'q1'));
 
 
@@ -8,4 +9,5 @@ test('saved GeoJSON retains coordinates and timestamps',()=>{const result=parseG
 test('invalid feature values are skipped without numeric coercion',()=>{const value=fixture();value.features.push({...value.features[0],properties:{mag:null,time:1000}});assert.equal(parseGeoJSON(value).skipped,1);assert.equal(parseGeoJSON(value).events.length,1);});
 test('malformed and empty imports are rejected',()=>{for(const input of [null,{}, {type:'FeatureCollection',features:[]}, {type:'FeatureCollection',features:Array(5001).fill(null)}])assert.throws(()=>parseGeoJSON(input));});
 test('imported timestamp filtering and sorting are deterministic',()=>{const dataset=[{id:'a',magnitude:4,time:100},{id:'b',magnitude:5,time:200}];assert.equal(visibleEvents(0,150,dataset)[0].id,'a');assert.equal(visibleEvents(0,300,dataset)[0].id,'b');assert.equal(visibleEvents(6,300,dataset).length,0);});
+
 

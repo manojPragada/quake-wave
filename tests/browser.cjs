@@ -8,6 +8,9 @@ const root=path.resolve(__dirname,'..');
 const mime={'.html':'text/html','.css':'text/css','.js':'text/javascript','.geojson':'application/geo+json'};
 async function scenario(page,base,reduced){
 
+  assert.equal(await page.locator('#playback').isDisabled(),reduced);
+  if(!reduced){await page.locator('#playback').click();await page.waitForFunction(()=>Number(document.querySelector('#hour').value)>0);await page.locator('#playback').click();assert.match(await page.locator('#history-status').textContent(),/paused/);await page.locator('#hour').evaluate(element=>{element.value=element.max;element.dispatchEvent(new Event('input',{bubbles:true}));});}
+
   await page.locator('#magnitude').selectOption('6');assert.equal(await page.locator('#list button').count(),1);
   await page.locator('#magnitude').selectOption('-10');await page.locator('#depth').selectOption('20');assert.equal(await page.locator('#list button').count(),2);
   await page.locator('#depth').selectOption('all');

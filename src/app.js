@@ -1,10 +1,35 @@
-import { events, visibleEvents, project, parseGeoJSON } from './model.js';
+import { events, visibleEvents, project, parseGeoJSON, advanceCutoff } from './model.js';
 const $=selector=>document.querySelector(selector);
 const depthLabel=document.createElement('label');depthLabel.textContent='Maximum depth ';
 const depthSelect=document.createElement('select');depthSelect.id='depth';
 for(const [value,label] of [['all','Any depth'],['20','20 km'],['50','50 km']]){const option=document.createElement('option');option.value=value;option.textContent=label;depthSelect.append(option);}
 depthLabel.append(depthSelect);$('#magnitude').closest('label').after(depthLabel);
+const playback=document.createElement('button');playback.id='playback';playback.type='button';playback.textContent='Play history';playback.setAttribute('aria-pressed','false');
+const historyStatus=document.createElement('p');historyStatus.id='history-status';historyStatus.className='status';historyStatus.setAttribute('role','status');
+$('#clock').after(playback,historyStatus);
 let selected='q1',dataset=events,imported=false,importGeneration=0;
+let playing=false,frame=null,previousTime=null,playbackCutoff=0;
+const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+function stopPlayback(message='Historical playback paused.') {
+  playing=false;previousTime=null;if(frame!==null)cancelAnimationFrame(frame);frame=null;
+  playback.textContent='Play history';playback.setAttribute('aria-pressed','false');historyStatus.textContent=message;
+}
+function tick(time) {
+  if(!playing)return;
+  if(previousTime===null)previousTime=time;
+  const next=advanceCutoff(playbackCutoff,$('#hour').min,$('#hour').max,time-previousTime);previousTime=time;playbackCutoff=next;$('#hour').value=next;render();
+  if(next>=Number($('#hour').max))stopPlayback('Historical playback complete.');else frame=requestAnimationFrame(tick);
+}
+function syncMotionPreference() {
+  if(reducedMotion.matches)stopPlayback('Animation disabled by reduced-motion preference; scrub the timeline manually.');
+  playback.disabled=reducedMotion.matches;
+}
+playback.addEventListener('click',()=>{
+  if(playing){stopPlayback();return;}
+  if(Number($('#hour').value)>=Number($('#hour').max))$('#hour').value=$('#hour').min;
+  playbackCutoff=Number($('#hour').value);playing=true;playback.textContent='Pause history';playback.setAttribute('aria-pressed','true');historyStatus.textContent='Replaying this loaded dataset; this is not a live feed.';frame=requestAnimationFrame(tick);
+});
+reducedMotion.addEventListener?.('change',syncMotionPreference);syncMotionPreference();
 function render() {
   const cutoff=Number($('#hour').value),items=visibleEvents(Number($('#magnitude').value),cutoff,dataset,$('#depth').value);
   selected=items.find(event=>event.id===selected)?.id??items[0]?.id??null;
@@ -26,8 +51,9 @@ function render() {
   detail.textContent=event?`${event.place} · ${event.depth} km depth · ${imported?new Date(event.time).toISOString():'demo hour '+event.hour+':00'}`:'Try a lower magnitude or later timeline position.';
   $('#detail').replaceChildren(heading,detail);
 }
-$('#magnitude').addEventListener('change',render);$('#depth').addEventListener('change',render);$('#hour').addEventListener('input',render);
+$('#magnitude').addEventListener('change',render);$('#depth').addEventListener('change',render);$('#hour').addEventListener('input',()=>{stopPlayback('Timeline scrubbed manually.');render();});
 $('#import-file').addEventListener('change',async()=>{
+  stopPlayback('Playback stopped while a local file is read.');
   const file=$('#import-file').files?.[0],generation=++importGeneration;if(!file)return;
   $('#import-status').textContent='Reading local file…';
   try {
@@ -43,6 +69,7 @@ $('#import-file').addEventListener('change',async()=>{
   } catch(error) {if(generation===importGeneration)$('#import-status').textContent='Import failed; previous dataset kept. '+error.message;}
 });
 $('#reset-demo').addEventListener('click',()=>{
+  stopPlayback('Synthetic demo restored; playback is ready.');
   importGeneration++;dataset=events;imported=false;selected='q1';$('#import-file').value='';$('#hour').min=0;$('#hour').max=24;$('#hour').step=1;$('#hour').value=24;
   $('#timeline-label').textContent='Demo timeline';$('#data-mode').textContent='SYNTHETIC EVENTS / NOT AN ALERT SYSTEM';$('.map-note').textContent='FICTIONAL EVENT LOCATIONS / SCHEMATIC GEOGRAPHY';$('footer span').textContent='Synthetic demo · no live data connection';$('#import-status').textContent='Synthetic demo restored. Imported data discarded.';render();
 });render();

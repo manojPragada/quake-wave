@@ -1,7 +1,9 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';import {events,visibleEvents,parseGeoJSON} from '../src/model.js';
+import {test} from 'node:test';import assert from 'node:assert/strict';import {events,visibleEvents,parseGeoJSON,advanceCutoff} from '../src/model.js';
 test('magnitude and time filters intersect',()=>{assert.equal(visibleEvents(5,24).length,2);assert.equal(visibleEvents(5,4).length,1);assert.equal(visibleEvents(0,0).length,0);});
 test('depth filter composes with magnitude and clamps negative input',()=>{assert.deepEqual(visibleEvents(4,24,events,20).map(e=>e.id),['q3']);assert.equal(visibleEvents(-10,24,events,-1).length,0);assert.equal(visibleEvents(-10,24,events,'all').length,events.length);});
 test('thresholds include exact values',()=>assert.equal(visibleEvents(6.2,3)[0].id,'q1'));
+test('historical playback advances proportionally and stops at the end',()=>{assert.equal(advanceCutoff(0,0,24,4000),12);assert.equal(advanceCutoff(23,0,24,1000),24);assert.equal(advanceCutoff(50,100,200,800),110);});
+test('historical playback handles invalid and reversed ranges safely',()=>{assert.equal(advanceCutoff(10,24,0,4000),22);assert.equal(advanceCutoff(10,2,20,-1),10);assert.equal(advanceCutoff(10,2,20,10,0),2);});
 
 
 function fixture(){return {type:'FeatureCollection',metadata:{generated:1000},features:[{type:'Feature',id:'source-id',properties:{mag:4.5,time:1000,place:'Example'},geometry:{type:'Point',coordinates:[10,20,30]}}]};}

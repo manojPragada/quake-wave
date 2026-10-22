@@ -4,6 +4,12 @@ export function visibleEvents(magnitude, cutoff, dataset=events, maxDepth=Infini
   return dataset.filter(event=>event.magnitude>=magnitude&&(event.time??event.hour)<=cutoff&&(Number.isFinite(event.depth)?event.depth:0)<=limit)
     .sort((a,b)=>(b.time??b.hour)-(a.time??a.hour));
 }
+export function advanceCutoff(value,min,max,elapsedMs,durationMs=8000) {
+  const numbers=[value,min,max,elapsedMs,durationMs].map(Number);
+  if(!numbers.every(Number.isFinite)||numbers[4]<=0)return Number.isFinite(numbers[1])?numbers[1]:0;
+  const low=Math.min(numbers[1],numbers[2]),high=Math.max(numbers[1],numbers[2]);
+  return Math.min(high,Math.max(low,numbers[0])+(Math.max(0,numbers[3])/numbers[4])*(high-low));
+}
 export function parseGeoJSON(value) {
   if (!value || value.type!=='FeatureCollection' || !Array.isArray(value.features)) throw new Error('Expected a GeoJSON FeatureCollection.');
   if(value.features.length>5000)throw new Error('Maximum 5,000 features per import.');

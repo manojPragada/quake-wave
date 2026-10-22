@@ -9,12 +9,15 @@
 ## Next
 
 - [ ] Add attributed public earthquake feed with timestamps and cache
-- [ ] Add historical event playback and richer detail panels
+- [x] Add historical playback for the loaded static dataset, with reduced-motion fallback
+- [ ] Add richer detail panels
 - [ ] Add depth-based globe view and data freshness indicator
 
 ## Continuity
 
-2026-10-21: Added a maximum-depth filter that composes with magnitude and time for demo/imported records, plus browser coverage. Imported depth remains user-supplied and unverified. Next: richer details and historical playback before any live-feed adapter.
+2026-10-21: Added a maximum-depth filter that composes with magnitude and time for demo/imported records, plus browser coverage. Imported depth remains user-supplied and unverified.
+
+2026-10-22: Added a pauseable historical-playback control for the currently loaded static dataset, with explicit non-live status and a reduced-motion manual-scrub fallback. Next: richer event details before any live-feed adapter.
 
 2026-10-20: Added repeatable Playwright regression checks and a public-repository-only CI workflow. Desktop, mobile and motion-enabled scenarios passed locally using Chromium 153; model tests and syntax checks passed. Screenshots generated locally for inspection. Earlier browser-unavailable notes below are historical. No deployment or live-provider validation performed. Next: expand browser coverage and review the existing PR before merging.
 

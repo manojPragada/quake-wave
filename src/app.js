@@ -1,4 +1,4 @@
-import { events, visibleEvents, project, parseGeoJSON, advanceCutoff } from './model.js';
+import { events, visibleEvents, project, parseGeoJSON, advanceCutoff, eventDetailRows } from './model.js';
 const $=selector=>document.querySelector(selector);
 const depthLabel=document.createElement('label');depthLabel.textContent='Maximum depth ';
 const depthSelect=document.createElement('select');depthSelect.id='depth';
@@ -46,10 +46,12 @@ function render() {
       const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');dot.setAttribute('cx',point[0]);dot.setAttribute('cy',point[1]);dot.setAttribute('r',size);dot.setAttribute('class',size===4?'marker':'quake-ring');$('#markers').append(dot);
     }
   }
-  const event=items.find(event=>event.id===selected);const heading=document.createElement('h2'),detail=document.createElement('p');
-  heading.textContent=event?'M'+event.magnitude:'No matching events';detail.className='muted small';
-  detail.textContent=event?`${event.place} · ${event.depth} km depth · ${imported?new Date(event.time).toISOString():'demo hour '+event.hour+':00'}`:'Try a lower magnitude or later timeline position.';
-  $('#detail').replaceChildren(heading,detail);
+  const event=items.find(event=>event.id===selected);const heading=document.createElement('h2');heading.textContent=event?event.place:'No matching events';
+  if(!event){const empty=document.createElement('p');empty.className='muted small';empty.textContent='Try a lower magnitude or later timeline position.';$('#detail').replaceChildren(heading,empty);return;}
+  const facts=document.createElement('dl');facts.className='event-facts';
+  for(const [label,value] of eventDetailRows(event,imported)){const term=document.createElement('dt'),description=document.createElement('dd');term.textContent=label;description.textContent=value;facts.append(term,description);}
+  const caveat=document.createElement('p');caveat.className='muted small';caveat.textContent=imported?'User-supplied record; provenance is not verified.':'Fictional record bundled for interface demonstration.';
+  $('#detail').replaceChildren(heading,facts,caveat);
 }
 $('#magnitude').addEventListener('change',render);$('#depth').addEventListener('change',render);$('#hour').addEventListener('input',()=>{stopPlayback('Timeline scrubbed manually.');render();});
 $('#import-file').addEventListener('change',async()=>{

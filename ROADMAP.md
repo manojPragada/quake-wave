@@ -10,10 +10,12 @@
 
 - [ ] Add attributed public earthquake feed with timestamps and cache
 - [x] Add historical playback for the loaded static dataset, with reduced-motion fallback
-- [ ] Add richer detail panels
+- [x] Add richer detail panels
 - [ ] Add depth-based globe view and data freshness indicator
 
 ## Continuity
+
+2026-10-22: Expanded event details with exact magnitude, depth, coordinates and time plus optional imported source record IDs. Imported provenance remains explicitly unverified. Next: an attributed, cached public-feed adapter with clear freshness and failure states.
 
 2026-10-21: Added a maximum-depth filter that composes with magnitude and time for demo/imported records, plus browser coverage. Imported depth remains user-supplied and unverified.
 

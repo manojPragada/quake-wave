@@ -27,6 +27,12 @@ export function parseGeoJSON(value) {
   return {events:result,skipped,generated:Number.isFinite(value.metadata?.generated)&&Math.abs(value.metadata.generated)<=8.64e15?value.metadata.generated:null};
 }
 export function project(e){return [(e.lon+180)/360*800,(90-e.lat)/180*400];}
+export function eventDetailRows(event,imported=false){
+  if(!event)return [];
+  const rows=[['Magnitude',String(event.magnitude)],['Depth',`${event.depth} km`],['Coordinates',`${event.lat.toFixed(2)}°, ${event.lon.toFixed(2)}°`],['Time',imported?new Date(event.time).toISOString():`Demo hour ${event.hour}:00`]];
+  if(imported&&event.sourceId)rows.push(['Source record',event.sourceId]);
+  return rows;
+}
 
 
 

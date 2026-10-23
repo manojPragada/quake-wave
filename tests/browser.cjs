@@ -12,6 +12,7 @@ async function scenario(page,base,reduced){
   if(!reduced){await page.locator('#playback').click();await page.waitForFunction(()=>Number(document.querySelector('#hour').value)>0);await page.locator('#playback').click();assert.match(await page.locator('#history-status').textContent(),/paused/);await page.locator('#hour').evaluate(element=>{element.value=element.max;element.dispatchEvent(new Event('input',{bubbles:true}));});}
 
   await page.locator('#magnitude').selectOption('6');assert.equal(await page.locator('#list button').count(),1);
+  assert.deepEqual(await page.locator('.event-facts dt').allTextContents(),['Magnitude','Depth','Coordinates','Time']);
   await page.locator('#magnitude').selectOption('-10');await page.locator('#depth').selectOption('20');assert.equal(await page.locator('#list button').count(),2);
   await page.locator('#depth').selectOption('all');
   await page.locator('#magnitude').selectOption('-10');
@@ -19,6 +20,7 @@ async function scenario(page,base,reduced){
   await page.waitForFunction(()=>document.querySelector('#import-status').textContent.startsWith('Loaded 1'));
   assert.match(await page.locator('#data-mode').textContent(),/IMPORTED FILE.*NOT LIVE/);
   assert.equal(await page.locator('#list button').count(),1);
+  assert.match(await page.locator('#detail').textContent(),/Source recordsynthetic-1/);
   await page.locator('#import-file').setInputFiles({name:'bad.json',mimeType:'application/json',buffer:Buffer.from('{broken')});
   await page.waitForFunction(()=>document.querySelector('#import-status').textContent.startsWith('Import failed'));
   assert.equal(await page.locator('#list button').count(),1);

@@ -20,7 +20,7 @@ Open http://127.0.0.1:8000. Keep the terminal running; Ctrl+C stops it. Serve ov
 
 Magnitude, timeline and maximum-depth filters compose. Depth values in the bundled demo are fictional; imported values are shown exactly as supplied after numeric validation and are not independently verified.
 
-Adjust minimum magnitude and timeline hour, then select a visible event to inspect its fictional details. **Play history** replays only the currently loaded static dataset from its earliest to latest time; it is disabled when reduced motion is requested and never represents a live feed or warning.
+Adjust minimum magnitude and timeline hour, then select a visible event to inspect magnitude, depth, coordinates and time. Imported records also show their source identifier when present; the app does not verify that provenance. **Play history** replays only the currently loaded static dataset from its earliest to latest time; it is disabled when reduced motion is requested and never represents a live feed or warning.
 
 ## Saved earthquake-file import
 

@@ -15,6 +15,8 @@
 
 ## Continuity
 
+2026-10-23: Added deterministic time, magnitude and depth ordering for the currently visible event set, including imported records. Ordering operates only on loaded data and makes no freshness claim. Next: attributed, cached feed adapter with explicit stale/error states.
+
 2026-10-22: Expanded event details with exact magnitude, depth, coordinates and time plus optional imported source record IDs. Imported provenance remains explicitly unverified. Next: an attributed, cached public-feed adapter with clear freshness and failure states.
 
 2026-10-21: Added a maximum-depth filter that composes with magnitude and time for demo/imported records, plus browser coverage. Imported depth remains user-supplied and unverified.

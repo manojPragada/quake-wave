@@ -1,7 +1,8 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';import {events,visibleEvents,parseGeoJSON,advanceCutoff,eventDetailRows} from '../src/model.js';
+import {test} from 'node:test';import assert from 'node:assert/strict';import {events,visibleEvents,sortEvents,parseGeoJSON,advanceCutoff,eventDetailRows} from '../src/model.js';
 test('magnitude and time filters intersect',()=>{assert.equal(visibleEvents(5,24).length,2);assert.equal(visibleEvents(5,4).length,1);assert.equal(visibleEvents(0,0).length,0);});
 test('depth filter composes with magnitude and clamps negative input',()=>{assert.deepEqual(visibleEvents(4,24,events,20).map(e=>e.id),['q3']);assert.equal(visibleEvents(-10,24,events,-1).length,0);assert.equal(visibleEvents(-10,24,events,'all').length,events.length);});
 test('thresholds include exact values',()=>assert.equal(visibleEvents(6.2,3)[0].id,'q1'));
+test('event ordering is deterministic and does not mutate the filtered list',()=>{const input=visibleEvents(-10,24),original=input.map(e=>e.id);assert.deepEqual(sortEvents(input,'magnitude').map(e=>e.id),['q1','q2','q3','q4']);assert.deepEqual(sortEvents(input,'depth').map(e=>e.id),['q4','q3','q1','q2']);assert.deepEqual(input.map(e=>e.id),original);});
 test('historical playback advances proportionally and stops at the end',()=>{assert.equal(advanceCutoff(0,0,24,4000),12);assert.equal(advanceCutoff(23,0,24,1000),24);assert.equal(advanceCutoff(50,100,200,800),110);});
 test('historical playback handles invalid and reversed ranges safely',()=>{assert.equal(advanceCutoff(10,24,0,4000),22);assert.equal(advanceCutoff(10,2,20,-1),10);assert.equal(advanceCutoff(10,2,20,10,0),2);});
 

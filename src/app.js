@@ -1,9 +1,13 @@
-import { events, visibleEvents, project, parseGeoJSON, advanceCutoff, eventDetailRows } from './model.js';
+import { events, visibleEvents, sortEvents, project, parseGeoJSON, advanceCutoff, eventDetailRows } from './model.js';
 const $=selector=>document.querySelector(selector);
 const depthLabel=document.createElement('label');depthLabel.textContent='Maximum depth ';
 const depthSelect=document.createElement('select');depthSelect.id='depth';
 for(const [value,label] of [['all','Any depth'],['20','20 km'],['50','50 km']]){const option=document.createElement('option');option.value=value;option.textContent=label;depthSelect.append(option);}
 depthLabel.append(depthSelect);$('#magnitude').closest('label').after(depthLabel);
+const sortLabel=document.createElement('label');sortLabel.textContent='Order events ';
+const sortSelect=document.createElement('select');sortSelect.id='sort';
+for(const [value,label] of [['newest','Newest first'],['magnitude','Largest first'],['depth','Shallowest first']]){const option=document.createElement('option');option.value=value;option.textContent=label;sortSelect.append(option);}
+sortLabel.append(sortSelect);depthLabel.after(sortLabel);
 const playback=document.createElement('button');playback.id='playback';playback.type='button';playback.textContent='Play history';playback.setAttribute('aria-pressed','false');
 const historyStatus=document.createElement('p');historyStatus.id='history-status';historyStatus.className='status';historyStatus.setAttribute('role','status');
 $('#clock').after(playback,historyStatus);
@@ -31,7 +35,7 @@ playback.addEventListener('click',()=>{
 });
 reducedMotion.addEventListener?.('change',syncMotionPreference);syncMotionPreference();
 function render() {
-  const cutoff=Number($('#hour').value),items=visibleEvents(Number($('#magnitude').value),cutoff,dataset,$('#depth').value);
+  const cutoff=Number($('#hour').value),items=sortEvents(visibleEvents(Number($('#magnitude').value),cutoff,dataset,$('#depth').value),$('#sort').value);
   selected=items.find(event=>event.id===selected)?.id??items[0]?.id??null;
   $('#clock').textContent=imported?new Date(cutoff).toISOString():String(cutoff).padStart(2,'0')+':00';
   $('#count').textContent=items.length+(imported?' imported records visible':' fictional events visible');
@@ -53,7 +57,7 @@ function render() {
   const caveat=document.createElement('p');caveat.className='muted small';caveat.textContent=imported?'User-supplied record; provenance is not verified.':'Fictional record bundled for interface demonstration.';
   $('#detail').replaceChildren(heading,facts,caveat);
 }
-$('#magnitude').addEventListener('change',render);$('#depth').addEventListener('change',render);$('#hour').addEventListener('input',()=>{stopPlayback('Timeline scrubbed manually.');render();});
+$('#magnitude').addEventListener('change',render);$('#depth').addEventListener('change',render);$('#sort').addEventListener('change',render);$('#hour').addEventListener('input',()=>{stopPlayback('Timeline scrubbed manually.');render();});
 $('#import-file').addEventListener('change',async()=>{
   stopPlayback('Playback stopped while a local file is read.');
   const file=$('#import-file').files?.[0],generation=++importGeneration;if(!file)return;

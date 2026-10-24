@@ -4,6 +4,12 @@ export function visibleEvents(magnitude, cutoff, dataset=events, maxDepth=Infini
   return dataset.filter(event=>event.magnitude>=magnitude&&(event.time??event.hour)<=cutoff&&(Number.isFinite(event.depth)?event.depth:0)<=limit)
     .sort((a,b)=>(b.time??b.hour)-(a.time??a.hour));
 }
+export function sortEvents(items,mode='newest') {
+  const copy=[...items];
+  if(mode==='magnitude')return copy.sort((a,b)=>b.magnitude-a.magnitude||String(a.id).localeCompare(String(b.id)));
+  if(mode==='depth')return copy.sort((a,b)=>(a.depth??0)-(b.depth??0)||String(a.id).localeCompare(String(b.id)));
+  return copy.sort((a,b)=>(b.time??b.hour)-(a.time??a.hour)||String(a.id).localeCompare(String(b.id)));
+}
 export function advanceCutoff(value,min,max,elapsedMs,durationMs=8000) {
   const numbers=[value,min,max,elapsedMs,durationMs].map(Number);
   if(!numbers.every(Number.isFinite)||numbers[4]<=0)return Number.isFinite(numbers[1])?numbers[1]:0;

@@ -13,7 +13,8 @@ async function scenario(page,base,reduced){
 
   await page.locator('#magnitude').selectOption('6');assert.equal(await page.locator('#list button').count(),1);
   assert.deepEqual(await page.locator('.event-facts dt').allTextContents(),['Magnitude','Depth','Coordinates','Time']);
-  await page.locator('#magnitude').selectOption('-10');await page.locator('#depth').selectOption('20');assert.equal(await page.locator('#list button').count(),2);
+  await page.locator('#magnitude').selectOption('-10');await page.locator('#sort').selectOption('magnitude');assert.match(await page.locator('#list button').first().textContent(),/^M6\.2/);
+  await page.locator('#depth').selectOption('20');assert.equal(await page.locator('#list button').count(),2);
   await page.locator('#depth').selectOption('all');
   await page.locator('#magnitude').selectOption('-10');
   await page.locator('#import-file').setInputFiles(path.join(root,'examples/usgs-shaped-demo.geojson'));

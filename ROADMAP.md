@@ -11,9 +11,11 @@
 - [ ] Add attributed public earthquake feed with timestamps and cache
 - [x] Add historical playback for the loaded static dataset, with reduced-motion fallback
 - [x] Add richer detail panels
-- [ ] Add depth-based globe view and data freshness indicator
+- [ ] Add depth-based globe view (import freshness indicator complete)
 
 ## Continuity
+
+2026-10-24: Added explicit age labels from optional imported generation metadata, including unknown and potentially stale states. The timestamp remains user-supplied and unverified; the app still performs no live refresh. Next: an attributed cached-feed adapter with failure states.
 
 2026-10-23: Added deterministic time, magnitude and depth ordering for the currently visible event set, including imported records. Ordering operates only on loaded data and makes no freshness claim. Next: attributed, cached feed adapter with explicit stale/error states.
 

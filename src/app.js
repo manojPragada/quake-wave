@@ -1,4 +1,4 @@
-import { events, visibleEvents, sortEvents, project, parseGeoJSON, advanceCutoff, eventDetailRows } from './model.js';
+import { events, visibleEvents, sortEvents, project, parseGeoJSON, advanceCutoff, eventDetailRows, freshnessLabel } from './model.js';
 const $=selector=>document.querySelector(selector);
 const depthLabel=document.createElement('label');depthLabel.textContent='Maximum depth ';
 const depthSelect=document.createElement('select');depthSelect.id='depth';
@@ -11,6 +11,7 @@ sortLabel.append(sortSelect);depthLabel.after(sortLabel);
 const playback=document.createElement('button');playback.id='playback';playback.type='button';playback.textContent='Play history';playback.setAttribute('aria-pressed','false');
 const historyStatus=document.createElement('p');historyStatus.id='history-status';historyStatus.className='status';historyStatus.setAttribute('role','status');
 $('#clock').after(playback,historyStatus);
+const freshness=document.createElement('p');freshness.id='freshness';freshness.className='small muted';freshness.textContent='Synthetic demo · no freshness claim';historyStatus.after(freshness);
 let selected='q1',dataset=events,imported=false,importGeneration=0;
 let playing=false,frame=null,previousTime=null,playbackCutoff=0;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -71,13 +72,13 @@ $('#import-file').addEventListener('change',async()=>{
     $('#timeline-label').textContent='Imported timeline (UTC)';$('#data-mode').textContent='IMPORTED FILE / NOT LIVE / NOT AN ALERT SYSTEM';
     $('.map-note').textContent='IMPORTED COORDINATES / SCHEMATIC GEOGRAPHY';
     $('footer span').textContent='User-supplied records · provenance unverified · no live connection';
-    $('#import-status').textContent=`Loaded ${dataset.length} records from ${file.name.slice(0,100)}; skipped ${result.skipped}. File generation: ${result.generated===null?'unknown':new Date(result.generated).toISOString()}. Not refreshed automatically.`;render();
+    freshness.textContent=freshnessLabel(result.generated);$('#import-status').textContent=`Loaded ${dataset.length} records from ${file.name.slice(0,100)}; skipped ${result.skipped}. File generation: ${result.generated===null?'unknown':new Date(result.generated).toISOString()}. Not refreshed automatically.`;render();
   } catch(error) {if(generation===importGeneration)$('#import-status').textContent='Import failed; previous dataset kept. '+error.message;}
 });
 $('#reset-demo').addEventListener('click',()=>{
   stopPlayback('Synthetic demo restored; playback is ready.');
   importGeneration++;dataset=events;imported=false;selected='q1';$('#import-file').value='';$('#hour').min=0;$('#hour').max=24;$('#hour').step=1;$('#hour').value=24;
-  $('#timeline-label').textContent='Demo timeline';$('#data-mode').textContent='SYNTHETIC EVENTS / NOT AN ALERT SYSTEM';$('.map-note').textContent='FICTIONAL EVENT LOCATIONS / SCHEMATIC GEOGRAPHY';$('footer span').textContent='Synthetic demo · no live data connection';$('#import-status').textContent='Synthetic demo restored. Imported data discarded.';render();
+  $('#timeline-label').textContent='Demo timeline';$('#data-mode').textContent='SYNTHETIC EVENTS / NOT AN ALERT SYSTEM';$('.map-note').textContent='FICTIONAL EVENT LOCATIONS / SCHEMATIC GEOGRAPHY';$('footer span').textContent='Synthetic demo · no live data connection';freshness.textContent='Synthetic demo · no freshness claim';$('#import-status').textContent='Synthetic demo restored. Imported data discarded.';render();
 });render();
 
 

@@ -39,6 +39,13 @@ export function eventDetailRows(event,imported=false){
   if(imported&&event.sourceId)rows.push(['Source record',event.sourceId]);
   return rows;
 }
+export function freshnessLabel(generated,now=Date.now()){
+  if(!Number.isFinite(generated)||!Number.isFinite(now))return 'Generation time unknown · freshness cannot be assessed';
+  const hours=Math.max(0,now-generated)/3600000;
+  if(hours<1)return `Generated ${Math.round(hours*60)} min ago · user-supplied metadata`;
+  if(hours<48)return `Generated ${Math.round(hours)} h ago · user-supplied metadata`;
+  return `Generated ${Math.round(hours/24)} d ago · may be stale · user-supplied metadata`;
+}
 
 
 

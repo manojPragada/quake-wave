@@ -19,13 +19,14 @@ async function scenario(page,base,reduced){
   await page.locator('#magnitude').selectOption('-10');
   await page.locator('#import-file').setInputFiles(path.join(root,'examples/usgs-shaped-demo.geojson'));
   await page.waitForFunction(()=>document.querySelector('#import-status').textContent.startsWith('Loaded 1'));
+  assert.match(await page.locator('#freshness').textContent(),/may be stale|user-supplied metadata/);
   assert.match(await page.locator('#data-mode').textContent(),/IMPORTED FILE.*NOT LIVE/);
   assert.equal(await page.locator('#list button').count(),1);
   assert.match(await page.locator('#detail').textContent(),/Source recordsynthetic-1/);
   await page.locator('#import-file').setInputFiles({name:'bad.json',mimeType:'application/json',buffer:Buffer.from('{broken')});
   await page.waitForFunction(()=>document.querySelector('#import-status').textContent.startsWith('Import failed'));
   assert.equal(await page.locator('#list button').count(),1);
-  await page.locator('#reset-demo').click();assert.equal(await page.locator('#list button').count(),4);
+  await page.locator('#reset-demo').click();assert.equal(await page.locator('#list button').count(),4);assert.match(await page.locator('#freshness').textContent(),/no freshness claim/);
 
 }
 async function main(){

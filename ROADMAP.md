@@ -15,6 +15,8 @@
 
 ## Continuity
 
+2026-10-26: Added a filter-aware depth-band summary for visible demo or imported events without turning descriptive depth into hazard guidance. Next: attributed cached-feed adapter with explicit stale/error states.
+
 2026-10-25: Added readable shallow/intermediate/deep depth bands to event details without presenting them as hazard or safety classifications. Next: attributed cached-feed adapter with explicit stale/error states.
 
 2026-10-24: Added explicit age labels from optional imported generation metadata, including unknown and potentially stale states. The timestamp remains user-supplied and unverified; the app still performs no live refresh. Next: an attributed cached-feed adapter with failure states.

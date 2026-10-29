@@ -36,6 +36,7 @@ export function project(e){return [(e.lon+180)/360*800,(90-e.lat)/180*400];}
 export function depthBand(depth){if(depth===null||depth===''||typeof depth==='boolean')return 'Unknown';const value=Number(depth);if(!Number.isFinite(value)||value<0)return 'Unknown';if(value<70)return 'Shallow';if(value<300)return 'Intermediate';return 'Deep';}
 export function depthSummary(items){const counts={Shallow:0,Intermediate:0,Deep:0,Unknown:0};for(const item of items)counts[depthBand(item?.depth)]++;return counts;}
 export function magnitudeSummary(items){const values=items.map(item=>item.magnitude).filter(Number.isFinite);return values.length?{largest:Math.max(...values),average:values.reduce((sum,value)=>sum+value,0)/values.length}:{largest:null,average:null};}
+export function loadedTimeSpan(items){const values=items.map(item=>item.time??item.hour).filter(Number.isFinite);return values.length?{earliest:Math.min(...values),latest:Math.max(...values)}:null;}
 export function eventDetailRows(event,imported=false){
   if(!event)return [];
   const rows=[['Magnitude',String(event.magnitude)],['Depth',`${event.depth} km · ${depthBand(event.depth)}`],['Coordinates',`${event.lat.toFixed(2)}°, ${event.lon.toFixed(2)}°`],['Time',imported?new Date(event.time).toISOString():`Demo hour ${event.hour}:00`]];

@@ -15,6 +15,8 @@
 
 ## Continuity
 
+2026-10-30: Added a filter-aware visible magnitude range and spread for loaded demo or imported records, explicitly as descriptive data context rather than safety guidance. Next: attributed cached-feed adapter with stale/error states.
+
 2026-10-29: Added filter-aware descriptive magnitude-band counts without hazard or alert interpretation. Next: attributed cached-feed adapter with stale/error states.
 
 2026-10-28: Added the visible loaded-data time span for demo and imported records without implying freshness. Next: attributed cached-feed adapter with stale/error states.

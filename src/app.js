@@ -1,4 +1,4 @@
-import { events, visibleEvents, sortEvents, project, parseGeoJSON, advanceCutoff, eventDetailRows, freshnessLabel, depthSummary, magnitudeSummary, loadedTimeSpan, magnitudeBands } from './model.js';
+import { events, visibleEvents, sortEvents, project, parseGeoJSON, advanceCutoff, eventDetailRows, freshnessLabel, depthSummary, magnitudeSummary, loadedTimeSpan, magnitudeBands, magnitudeRange } from './model.js';
 const $=selector=>document.querySelector(selector);
 const depthLabel=document.createElement('label');depthLabel.textContent='Maximum depth ';
 const depthSelect=document.createElement('select');depthSelect.id='depth';
@@ -39,7 +39,7 @@ function render() {
   const cutoff=Number($('#hour').value),items=sortEvents(visibleEvents(Number($('#magnitude').value),cutoff,dataset,$('#depth').value),$('#sort').value);
   selected=items.find(event=>event.id===selected)?.id??items[0]?.id??null;
   $('#clock').textContent=imported?new Date(cutoff).toISOString():String(cutoff).padStart(2,'0')+':00';
-  const depths=depthSummary(items),magnitudes=magnitudeSummary(items),bands=magnitudeBands(items),span=loadedTimeSpan(items),spanText=!span?'no visible time span':imported?`${new Date(span.earliest).toISOString()} → ${new Date(span.latest).toISOString()}`:`demo hours ${span.earliest}:00–${span.latest}:00`,magnitudeText=magnitudes.largest===null?'no magnitude summary':`largest M${magnitudes.largest} / average M${magnitudes.average.toFixed(1)}`;$('#count').textContent=`${items.length}${imported?' imported records':' fictional events'} visible · ${magnitudeText} · bands: ${bands.below4} below M4 / ${bands.from4to6} M4–5.9 / ${bands.atLeast6} M6+ · ${spanText} · ${depths.Shallow} shallow / ${depths.Intermediate} intermediate / ${depths.Deep} deep`;
+  const depths=depthSummary(items),magnitudes=magnitudeSummary(items),range=magnitudeRange(items),bands=magnitudeBands(items),span=loadedTimeSpan(items),spanText=!span?'no visible time span':imported?`${new Date(span.earliest).toISOString()} → ${new Date(span.latest).toISOString()}`:`demo hours ${span.earliest}:00–${span.latest}:00`,magnitudeText=magnitudes.largest===null?'no magnitude summary':`largest M${magnitudes.largest} / average M${magnitudes.average.toFixed(1)} / visible range M${range.minimum}–${range.maximum} (spread ${range.spread.toFixed(1)})`;$('#count').textContent=`${items.length}${imported?' imported records':' fictional events'} visible · ${magnitudeText} · bands: ${bands.below4} below M4 / ${bands.from4to6} M4–5.9 / ${bands.atLeast6} M6+ · ${spanText} · ${depths.Shallow} shallow / ${depths.Intermediate} intermediate / ${depths.Deep} deep`;
   $('#list').replaceChildren();$('#markers').replaceChildren();
   for(const event of items) {
     const button=document.createElement('button');button.dataset.event=event.id;button.textContent=`M${event.magnitude} · ${event.place}`;

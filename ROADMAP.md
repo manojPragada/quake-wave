@@ -15,6 +15,8 @@
 
 ## Continuity
 
+2026-10-31: Added the median magnitude for the currently visible demo or imported records alongside the existing largest, average and range summary. It is descriptive loaded-data context, not alert or hazard guidance. Next: attributed cached-feed adapter with stale/error states.
+
 2026-10-30: Added a filter-aware visible magnitude range and spread for loaded demo or imported records, explicitly as descriptive data context rather than safety guidance. Next: attributed cached-feed adapter with stale/error states.
 
 2026-10-29: Added filter-aware descriptive magnitude-band counts without hazard or alert interpretation. Next: attributed cached-feed adapter with stale/error states.

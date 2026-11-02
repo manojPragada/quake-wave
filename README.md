@@ -4,6 +4,8 @@ A seismic-storytelling demo with event selection, magnitude filtering and a scru
 
 **Status:** working static prototype, no hosted deployment. See limitations below. This project uses no external assets, fonts, runtime dependencies, API keys or paid services.
 
+Current data-context increment: visible records include a median depth summary alongside magnitude statistics and descriptive depth bands.
+
 ## Quick start
 
 Prerequisites: Python 3 for a local static server; Node.js 20+ for tests.

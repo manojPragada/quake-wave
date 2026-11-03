@@ -4,7 +4,7 @@ A seismic-storytelling demo with event selection, magnitude filtering and a scru
 
 **Status:** working static prototype, no hosted deployment. See limitations below. This project uses no external assets, fonts, runtime dependencies, API keys or paid services.
 
-Current data-context increment: visible records include a median depth summary alongside magnitude statistics and descriptive depth bands.
+Current data-context increment: visible records include depth range, spread and median alongside magnitude statistics and descriptive depth bands.
 
 ## Quick start
 

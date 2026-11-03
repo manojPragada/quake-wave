@@ -41,6 +41,7 @@ export function magnitudeBands(items){const result={below4:0,from4to6:0,atLeast6
 export function magnitudeRange(items){const values=items.map(item=>item?.magnitude).filter(Number.isFinite);if(!values.length)return null;const minimum=Math.min(...values),maximum=Math.max(...values);return {minimum,maximum,spread:maximum-minimum};}
 export function medianMagnitude(items){const values=items.map(item=>item?.magnitude).filter(Number.isFinite).sort((a,b)=>a-b);if(!values.length)return null;const middle=Math.floor(values.length/2);return values.length%2?values[middle]:(values[middle-1]+values[middle])/2;}
 export function medianDepth(items){const values=items.map(item=>item?.depth).filter(value=>Number.isFinite(value)&&value>=0).sort((a,b)=>a-b);if(!values.length)return null;const middle=Math.floor(values.length/2);return values.length%2?values[middle]:(values[middle-1]+values[middle])/2;}
+export function depthRange(items){const values=items.map(item=>item?.depth).filter(value=>Number.isFinite(value)&&value>=0);if(!values.length)return null;const minimum=Math.min(...values),maximum=Math.max(...values);return {minimum,maximum,spread:maximum-minimum};}
 export function eventDetailRows(event,imported=false){
   if(!event)return [];
   const rows=[['Magnitude',String(event.magnitude)],['Depth',`${event.depth} km · ${depthBand(event.depth)}`],['Coordinates',`${event.lat.toFixed(2)}°, ${event.lon.toFixed(2)}°`],['Time',imported?new Date(event.time).toISOString():`Demo hour ${event.hour}:00`]];

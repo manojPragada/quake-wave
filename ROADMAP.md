@@ -15,6 +15,8 @@
 
 ## Continuity
 
+2026-11-02: Added a filter-aware visible depth range and spread for demo or imported records. This is descriptive loaded-data context, not hazard or safety guidance. Next: attributed cached-feed adapter with stale/error states.
+
 2026-11-01: Added filter-aware median depth for visible demo or imported records, ignoring invalid and negative values and preserving non-safety language. Next: attributed cached-feed adapter with stale/error states.
 
 2026-10-31: Added the median magnitude for the currently visible demo or imported records alongside the existing largest, average and range summary. It is descriptive loaded-data context, not alert or hazard guidance. Next: attributed cached-feed adapter with stale/error states.

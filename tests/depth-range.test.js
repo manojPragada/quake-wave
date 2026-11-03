@@ -1,0 +1,2 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {depthRange} from '../src/model.js';
+test('depth range ignores invalid values and reports spread',()=>{assert.deepEqual(depthRange([{depth:10},{depth:40},{depth:25}]),{minimum:10,maximum:40,spread:30});assert.deepEqual(depthRange([{depth:12}]),{minimum:12,maximum:12,spread:0});assert.equal(depthRange([{depth:-1},{depth:null}]),null);});

@@ -15,6 +15,8 @@
 
 ## Continuity
 
+2026-11-03: Added filter-aware usable-depth coverage for the visible loaded records so incomplete depth context is explicit. This is data-quality context, not hazard or safety guidance. Next: attributed cached-feed adapter with stale/error states.
+
 2026-11-02: Added a filter-aware visible depth range and spread for demo or imported records. This is descriptive loaded-data context, not hazard or safety guidance. Next: attributed cached-feed adapter with stale/error states.
 
 2026-11-01: Added filter-aware median depth for visible demo or imported records, ignoring invalid and negative values and preserving non-safety language. Next: attributed cached-feed adapter with stale/error states.

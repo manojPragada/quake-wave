@@ -4,7 +4,7 @@ A seismic-storytelling demo with event selection, magnitude filtering and a scru
 
 **Status:** working static prototype, no hosted deployment. See limitations below. This project uses no external assets, fonts, runtime dependencies, API keys or paid services.
 
-Current data-context increment: visible records include middle-50% magnitude and depth ranges alongside usable-depth coverage, full ranges, medians and descriptive depth bands.
+Current data-context increment: imported generation metadata that lies in the future is now flagged as unverified instead of being presented as freshly generated. All freshness labels remain user-supplied context, not live-feed evidence.
 
 ## Quick start
 

@@ -59,6 +59,12 @@ export function freshnessLabel(generated,now=Date.now()){
   if(hours<48)return `Generated ${Math.round(hours)} h ago · user-supplied metadata`;
   return `Generated ${Math.round(hours/24)} d ago · may be stale · user-supplied metadata`;
 }
+export function generationChronologyLabel(items,generated){
+  const times=items.map(item=>item?.time).filter(Number.isFinite);
+  if(!Number.isFinite(generated))return 'Event chronology cannot be checked without generation metadata';
+  const after=times.filter(time=>time>generated).length;
+  return `${after} of ${times.length} event times fall after the user-supplied generation time${after?' · metadata chronology inconsistent':''}`;
+}
 
 
 

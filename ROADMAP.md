@@ -15,6 +15,8 @@
 
 ## Continuity
 
+2026-11-07: Added a tested chronology check that counts imported event times after the user-supplied generation timestamp and flags inconsistent metadata. It is data-quality context, not source verification or safety guidance. Next: attributed cached-feed adapter with stale/error states.
+
 2026-11-06: Added a tested future-time state for imported generation metadata so clock-skewed or misleading values are flagged as unverified rather than fresh. Next: attributed cached-feed adapter with stale/error states.
 
 2026-11-05: Added a filter-aware magnitude interquartile range for visible loaded records, exposing the middle 50% alongside the full range without turning descriptive statistics into hazard guidance. Next: attributed cached-feed adapter with stale/error states.

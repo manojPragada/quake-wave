@@ -1,4 +1,4 @@
-import {test} from 'node:test';import assert from 'node:assert/strict';import {events,visibleEvents,sortEvents,parseGeoJSON,advanceCutoff,eventDetailRows,freshnessLabel} from '../src/model.js';
+import {test} from 'node:test';import assert from 'node:assert/strict';import {events,visibleEvents,sortEvents,parseGeoJSON,advanceCutoff,eventDetailRows,freshnessLabel,generationChronologyLabel} from '../src/model.js';
 test('magnitude and time filters intersect',()=>{assert.equal(visibleEvents(5,24).length,2);assert.equal(visibleEvents(5,4).length,1);assert.equal(visibleEvents(0,0).length,0);});
 test('depth filter composes with magnitude and clamps negative input',()=>{assert.deepEqual(visibleEvents(4,24,events,20).map(e=>e.id),['q3']);assert.equal(visibleEvents(-10,24,events,-1).length,0);assert.equal(visibleEvents(-10,24,events,'all').length,events.length);});
 test('thresholds include exact values',()=>assert.equal(visibleEvents(6.2,3)[0].id,'q1'));
@@ -14,6 +14,7 @@ test('malformed and empty imports are rejected',()=>{for(const input of [null,{}
 test('imported timestamp filtering and sorting are deterministic',()=>{const dataset=[{id:'a',magnitude:4,time:100},{id:'b',magnitude:5,time:200}];assert.equal(visibleEvents(0,150,dataset)[0].id,'a');assert.equal(visibleEvents(0,300,dataset)[0].id,'b');assert.equal(visibleEvents(6,300,dataset).length,0);});
 test('detail rows distinguish fictional and imported records',()=>{assert.deepEqual(eventDetailRows(events[0]).map(row=>row[0]),['Magnitude','Depth','Coordinates','Time']);const imported={...events[0],time:1000,sourceId:'source-id'};assert.deepEqual(eventDetailRows(imported,true).at(-1),['Source record','source-id']);assert.deepEqual(eventDetailRows(null),[]);});
 test('freshness labels are explicit about user-supplied metadata',()=>{assert.match(freshnessLabel(null,1000),/unknown/);assert.match(freshnessLabel(0,30*60000),/30 min.*user-supplied/);assert.match(freshnessLabel(0,72*3600000),/3 d.*stale/);assert.match(freshnessLabel(2000,1000),/future.*unverified/);});
+test('generation chronology exposes inconsistent user-supplied metadata',()=>{const items=[{time:900},{time:1100},{time:null}];assert.match(generationChronologyLabel(items,1000),/^1 of 2.*inconsistent/);assert.match(generationChronologyLabel(items,null),/cannot be checked/);assert.doesNotMatch(generationChronologyLabel([{time:900}],1000),/inconsistent/);});
 test('depth bands are descriptive and bounded',async()=>{const {depthBand}=await import('../src/model.js');assert.equal(depthBand(10),'Shallow');assert.equal(depthBand(100),'Intermediate');assert.equal(depthBand(400),'Deep');assert.equal(depthBand(-1),'Unknown');});
 
 

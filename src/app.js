@@ -1,4 +1,4 @@
-import { events, visibleEvents, sortEvents, project, parseGeoJSON, advanceCutoff, eventDetailRows, freshnessLabel, depthSummary, magnitudeSummary, loadedTimeSpan, magnitudeBands, magnitudeRange, medianMagnitude, medianDepth, depthRange, depthCoverage, depthInterquartileRange, magnitudeInterquartileRange } from './model.js';
+import { events, visibleEvents, sortEvents, project, parseGeoJSON, advanceCutoff, eventDetailRows, freshnessLabel, generationChronologyLabel, depthSummary, magnitudeSummary, loadedTimeSpan, magnitudeBands, magnitudeRange, medianMagnitude, medianDepth, depthRange, depthCoverage, depthInterquartileRange, magnitudeInterquartileRange } from './model.js';
 const $=selector=>document.querySelector(selector);
 const depthLabel=document.createElement('label');depthLabel.textContent='Maximum depth ';
 const depthSelect=document.createElement('select');depthSelect.id='depth';
@@ -72,7 +72,7 @@ $('#import-file').addEventListener('change',async()=>{
     $('#timeline-label').textContent='Imported timeline (UTC)';$('#data-mode').textContent='IMPORTED FILE / NOT LIVE / NOT AN ALERT SYSTEM';
     $('.map-note').textContent='IMPORTED COORDINATES / SCHEMATIC GEOGRAPHY';
     $('footer span').textContent='User-supplied records · provenance unverified · no live connection';
-    freshness.textContent=freshnessLabel(result.generated);$('#import-status').textContent=`Loaded ${dataset.length} records from ${file.name.slice(0,100)}; skipped ${result.skipped}. File generation: ${result.generated===null?'unknown':new Date(result.generated).toISOString()}. Not refreshed automatically.`;render();
+    freshness.textContent=freshnessLabel(result.generated);$('#import-status').textContent=`Loaded ${dataset.length} records from ${file.name.slice(0,100)}; skipped ${result.skipped}. File generation: ${result.generated===null?'unknown':new Date(result.generated).toISOString()}. ${generationChronologyLabel(dataset,result.generated)}. Not refreshed automatically.`;render();
   } catch(error) {if(generation===importGeneration)$('#import-status').textContent='Import failed; previous dataset kept. '+error.message;}
 });
 $('#reset-demo').addEventListener('click',()=>{

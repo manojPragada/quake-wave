@@ -4,7 +4,7 @@ A seismic-storytelling demo with event selection, magnitude filtering and a scru
 
 **Status:** working static prototype, no hosted deployment. See limitations below. This project uses no external assets, fonts, runtime dependencies, API keys or paid services.
 
-Current data-context increment: imported generation metadata that lies in the future is now flagged as unverified instead of being presented as freshly generated. All freshness labels remain user-supplied context, not live-feed evidence.
+Current data-context increment: imported event times are now checked against optional user-supplied generation metadata, explicitly surfacing impossible post-generation records without treating the file as verified or live.
 
 ## Quick start
 

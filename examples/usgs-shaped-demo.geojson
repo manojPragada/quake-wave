@@ -2,7 +2,8 @@
   "type": "FeatureCollection",
   "metadata": {
     "title": "Synthetic import test, not an actual earthquake",
-    "generated": 1000
+    "generated": 1000,
+    "count": 1
   },
   "features": [
     {

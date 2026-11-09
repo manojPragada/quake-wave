@@ -30,7 +30,8 @@ export function parseGeoJSON(value) {
       lon:coords[0],lat:coords[1],depth:coords[2],magnitude:properties.mag,time:properties.time});
   }
   if(!result.length)throw new Error('No valid magnitude/time/Point records found.');
-  return {events:result,skipped,generated:Number.isFinite(value.metadata?.generated)&&Math.abs(value.metadata.generated)<=8.64e15?value.metadata.generated:null};
+  const declaredCount=Number.isInteger(value.metadata?.count)&&value.metadata.count>=0?value.metadata.count:null;
+  return {events:result,skipped,generated:Number.isFinite(value.metadata?.generated)&&Math.abs(value.metadata.generated)<=8.64e15?value.metadata.generated:null,declaredCount};
 }
 export function project(e){return [(e.lon+180)/360*800,(90-e.lat)/180*400];}
 export function depthBand(depth){if(depth===null||depth===''||typeof depth==='boolean')return 'Unknown';const value=Number(depth);if(!Number.isFinite(value)||value<0)return 'Unknown';if(value<70)return 'Shallow';if(value<300)return 'Intermediate';return 'Deep';}
@@ -65,6 +66,7 @@ export function generationChronologyLabel(items,generated){
   const after=times.filter(time=>time>generated).length;
   return `${after} of ${times.length} event times fall after the user-supplied generation time${after?' · metadata chronology inconsistent':''}`;
 }
+export function metadataCountLabel(actual,declared){const count=Number(actual);if(!Number.isInteger(count)||count<0)return 'File feature count unavailable';if(!Number.isInteger(declared)||declared<0)return `File contains ${count} features · declared metadata count unavailable`;return declared===count?`Declared metadata count matches ${count} file features`:`Declared metadata count ${declared} differs from ${count} file features · metadata inconsistent`;}
 
 
 

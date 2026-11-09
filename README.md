@@ -4,7 +4,7 @@ A seismic-storytelling demo with event selection, magnitude filtering and a scru
 
 **Status:** working static prototype, no hosted deployment. See limitations below. This project uses no external assets, fonts, runtime dependencies, API keys or paid services.
 
-Current data-context increment: imported event times are now checked against optional user-supplied generation metadata, explicitly surfacing impossible post-generation records without treating the file as verified or live.
+Current data-context increment: a saved GeoJSON file's optional declared metadata count is now compared with its actual feature count, explicitly surfacing missing or inconsistent metadata without treating the file as verified or live.
 
 ## Quick start
 
@@ -28,7 +28,7 @@ Adjust minimum magnitude and timeline hour, then select a visible event to inspe
 
 Use **Import saved USGS-format GeoJSON** to load a local FeatureCollection. The [USGS GeoJSON Summary format](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php) defines magnitude, epoch-millisecond event times and Point coordinates `[longitude, latitude, depth]`. This importer accepts that subset; it does not fetch or authenticate the source. A compatible shape does not prove that a file contains real observations.
 
-Files stay in memory and are not uploaded or persisted. Limits: 1 MiB and 5,000 features. Malformed collections or imports without valid records fail without replacing the current dataset; invalid individual records are skipped and counted. Imported labels show UTC event time and optional file-generation time, and never claim a live connection. Restore demo discards the imported dataset. `examples/usgs-shaped-demo.geojson` is explicitly synthetic test data, not an observation feed.
+Files stay in memory and are not uploaded or persisted. Limits: 1 MiB and 5,000 features. Malformed collections or imports without valid records fail without replacing the current dataset; invalid individual records are skipped and counted. Optional metadata counts are compared with the number of file features, not just accepted records. Imported labels show UTC event time and optional file-generation time, and never claim a live connection. Restore demo discards the imported dataset. `examples/usgs-shaped-demo.geojson` is explicitly synthetic test data, not an observation feed.
 
 ## Project structure
 

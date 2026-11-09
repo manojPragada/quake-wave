@@ -1,0 +1,2 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {depthInterquartileRange} from '../src/model.js';
+test('depth interquartile range describes the middle half of usable values',()=>{assert.deepEqual(depthInterquartileRange([{depth:0},{depth:10},{depth:20},{depth:30},{depth:40},{depth:-1}]),{lower:10,upper:30,spread:20});assert.equal(depthInterquartileRange([{depth:null}]),null);});

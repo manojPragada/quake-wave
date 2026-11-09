@@ -1,0 +1,1 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {magnitudeSummary} from '../src/model.js';test('magnitude summary handles loaded and empty sets',()=>{assert.deepEqual(magnitudeSummary([]),{largest:null,average:null});assert.deepEqual(magnitudeSummary([{magnitude:4},{magnitude:6}]),{largest:6,average:5});});

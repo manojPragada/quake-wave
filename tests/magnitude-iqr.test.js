@@ -1,0 +1,2 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {magnitudeInterquartileRange} from '../src/model.js';
+test('magnitude interquartile range describes the middle half of finite visible values',()=>{assert.deepEqual(magnitudeInterquartileRange([{magnitude:2},{magnitude:3},{magnitude:4},{magnitude:5},{magnitude:6},{magnitude:null}]),{lower:3,upper:5,spread:2});assert.equal(magnitudeInterquartileRange([{magnitude:null}]),null);});

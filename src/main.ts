@@ -1,4 +1,5 @@
 import'./styles.css';import{demo,mapPoint,parseFeed,USGS_DAY_FEED,type Quake}from'./feed'
+import'./playbackController'
 import{nextEventIndex}from'./navigation'
 const root=document.querySelector<HTMLDivElement>('#app')!;let quakes=[...demo],selected=quakes[0],minimum=2.5,hours=24,status:'demo'|'loading'|'live'|'error'='demo',error=''
 const age=(q:Quake)=>Math.max(0,(Date.now()-q.time)/3600000);const visible=()=>quakes.filter(q=>q.mag>=minimum&&age(q)<=hours).sort((a,b)=>b.time-a.time)

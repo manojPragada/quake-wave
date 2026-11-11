@@ -8,9 +8,11 @@
 - [x] Add wrapping arrow-key navigation between catalog events
 - [x] Add bounded playback over the already-loaded 24-hour catalog
 ## Next
-- [ ] Persist the last successful feed only with freshness metadata
+- [x] Persist the last successful feed only with freshness metadata
 - [ ] Add plate-boundary layers with verified public attribution
 ## Continuity
+2026-11-10: Added a bounded last-success USGS catalog cache with explicit retrieval age, a 48-hour restoration limit and rejection of malformed, future-dated or synthetic entries. Loading remains user-initiated and never refreshes in the background. Next: add plate-boundary layers only with verified public attribution.
+
 2026-11-09: Added user-initiated playback across five bounded time windows. It reuses the loaded catalog, labels that behavior beside the control and never issues playback-related feed requests. Next: persist only a last successful live feed with explicit retrieval and observation timestamps.
 
 2026-11-09: Added Arrow-key event navigation with wrapping selection, focus retention and unit-tested index behavior. Next: add bounded historical playback snapshots without multiplying feed requests.

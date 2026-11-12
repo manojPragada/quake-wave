@@ -15,4 +15,9 @@ describe('last successful feed cache', () => {
     expect(restoreFeedCache('{broken', 1_000)).toBeNull()
     expect(() => createFeedCache([{ ...event, source: 'demo' }], 1_000)).toThrow('USGS')
   })
+  it('rejects future-dated and geographically impossible cached events', () => {
+    expect(() => createFeedCache([{ ...event, time: 1_000_000 }], 1_000)).toThrow('bounded')
+    expect(() => createFeedCache([{ ...event, lat: 91 }], 1_000)).toThrow('bounded')
+    expect(() => createFeedCache([{ ...event, lon: -181 }], 1_000)).toThrow('bounded')
+  })
 })

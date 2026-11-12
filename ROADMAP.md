@@ -9,8 +9,11 @@
 - [x] Add bounded playback over the already-loaded 24-hour catalog
 ## Next
 - [x] Persist the last successful feed only with freshness metadata
+- [x] Reject future-dated and geographically impossible cached catalog events
 - [ ] Add plate-boundary layers with verified public attribution
 ## Continuity
+2026-11-11: Hardened restored USGS catalogs against impossible latitude/longitude values and event timestamps more than five minutes beyond retrieval, preventing malformed local storage from presenting impossible events. Next: add plate-boundary layers only with verified public attribution.
+
 2026-11-10: Added a bounded last-success USGS catalog cache with explicit retrieval age, a 48-hour restoration limit and rejection of malformed, future-dated or synthetic entries. Loading remains user-initiated and never refreshes in the background. Next: add plate-boundary layers only with verified public attribution.
 
 2026-11-09: Added user-initiated playback across five bounded time windows. It reuses the loaded catalog, labels that behavior beside the control and never issues playback-related feed requests. Next: persist only a last successful live feed with explicit retrieval and observation timestamps.

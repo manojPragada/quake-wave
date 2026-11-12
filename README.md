@@ -19,7 +19,7 @@ Live mode uses `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_da
 ## Architecture
 `src/feed.ts` owns the typed trust boundary, rejects invalid collections and skips malformed features. `src/main.ts` owns provenance, loading/error/empty states, filtering and rendering. The dependency-light SVG map ships without tiles or geographic claims beyond approximate catalog placement.
 
-After a successful user-initiated request, up to 500 normalized USGS events are cached in browser `localStorage` with their retrieval timestamp. A valid cache is restored for at most 48 hours and is always labelled cached with its age; malformed, synthetic, future-dated or older entries are ignored. Failed refreshes retain the current catalog. No background refresh occurs.
+After a successful user-initiated request, up to 500 normalized USGS events are cached in browser `localStorage` with their retrieval timestamp. A valid cache is restored for at most 48 hours and is always labelled cached with its age; malformed, synthetic, future-dated, geographically impossible or older entries are ignored. Event timestamps may be at most five minutes ahead of retrieval to tolerate small clock differences. Failed refreshes retain the current catalog. No background refresh occurs.
 
 ## Structure
 ```text
